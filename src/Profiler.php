@@ -5,6 +5,7 @@ use Ramsey\Uuid;
 /**
  * Class Profiler
  * @package ChefsPlate\Profiler
+ * @author Will Salemé <william.saleme@chefsplate.com>
  */
 final class Profiler
 {
