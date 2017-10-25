@@ -1,0 +1,9 @@
+# Directories
+/.idea/
+/vendor/
+/node_modules/
+/.phpcomplete_extended/
+
+# Files
+composer.lock
+.DS_Store
