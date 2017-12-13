@@ -98,7 +98,8 @@ final class Profiler
                     $cumulative ? $frame['time'] : (
                         count($frame['steps']) ? end($frame['steps']) : $frame['time']
                     )
-                ), static::$precision
+                ),
+                static::$precision
             );
 
             if (static::$log) {
