@@ -67,9 +67,9 @@ final class Profiler
         $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
         $frame_id = Uuid\Uuid::uuid4();
         static::$stack[$frame_id->toString()] = [
-            'class' => $trace[1]['class'],
+            'class' => $trace[1]['class'] ?? null,
             'file' => $trace[0]['file'],
-            'function' => $trace[1]['function'],
+            'function' => $trace[1]['function'] ?? null,
             'line' => $trace[0]['line'],
             'time' => $start_time,
             'offset' => 0.0,
@@ -88,14 +88,16 @@ final class Profiler
      */
     public static function profile(Uuid\UuidInterface $id, string $label = '', bool $cumulative = null): float
     {
-        $cumulative = $cumulative ?? static::$cumulative;
         $end_time = microtime(true);
+        $cumulative = $cumulative ?? static::$cumulative;
         if (array_key_exists($id->toString(), static::$stack)) {
             $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 2);
             $frame = static::$stack[$id->toString()];
             $diff = round(
                 $end_time - $frame['offset'] - (
-                    $cumulative ? $frame['time'] : count($frame['steps']) ? end($frame['steps']) : $frame['time']
+                    $cumulative ? $frame['time'] : (
+                        count($frame['steps']) ? end($frame['steps']) : $frame['time']
+                    )
                 ), static::$precision
             );
 
